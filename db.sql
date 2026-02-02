@@ -14,6 +14,7 @@ CREATE TABLE users (
     full_name VARCHAR(150) NOT NULL,
     phone_number VARCHAR(30),
     email VARCHAR(150) UNIQUE,
+    gender VARCHAR(20),
     password_hash VARCHAR(255) NOT NULL,
     role ENUM('citizen', 'official', 'moderator', 'legal_aid') NOT NULL,
     ward VARCHAR(100),
