@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - Tuwaze</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-green: #1b5e20;
+        --secondary-green: #2e7d32;
+        --light-green: #4caf50;
+        --accent-green: #66bb6a;
+        --pale-green: #e8f5e9;
+        --dark-text: #212121;
+        --light-text: #ffffff;
+        --gray-text: #757575;
+        --error-red: #d32f2f;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--dark-text);
+        background: linear-gradient(
+          135deg,
+          var(--primary-green) 0%,
+          var(--secondary-green) 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: linear-gradient(
+          135deg,
+          var(--primary-green) 0%,
+          var(--secondary-green) 100%
+        );
+        padding: 1.2rem 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(27, 94, 32, 0.1);
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--light-text);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .logo span {
+        font-size: 2rem;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: var(--light-text);
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-weight: 500;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent-green);
+      }
+
+      /* Auth Container */
+      .auth-container {
+        background: var(--light-text);
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 450px;
+        padding: 3rem;
+        margin-top: 80px;
+        animation: slideUp 0.5s ease-out;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .auth-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .auth-header h1 {
+        font-size: 2rem;
+        color: var(--primary-green);
+        margin-bottom: 0.5rem;
+      }
+
+      .auth-header p {
+        color: var(--gray-text);
+        font-size: 0.95rem;
+      }
+
+      .auth-header a {
+        color: var(--light-green);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .auth-header a:hover {
+        color: var(--secondary-green);
+      }
+
+      /* Form Styles */
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--dark-text);
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 0.9rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-family: inherit;
+        transition: all 0.3s ease;
+      }
+
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--light-green);
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+      }
+
+      input::placeholder {
+        color: #bdbdbd;
+      }
+
+      /* Error States */
+      input.error {
+        border-color: var(--error-red);
+      }
+
+      input.error:focus {
+        box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+      }
+
+      .error-message {
+        color: var(--error-red);
+        font-size: 0.85rem;
+        margin-top: 0.3rem;
+        display: none;
+      }
+
+      .error-message.show {
+        display: block;
+      }
+
+      /* Password Requirements */
+      .password-requirements {
+        background-color: var(--pale-green);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+        font-size: 0.85rem;
+        color: var(--primary-green);
+      }
+
+      .password-requirements ul {
+        list-style: none;
+        margin-top: 0.5rem;
+      }
+
+      .password-requirements li {
+        padding: 0.3rem 0;
+        display: flex;
+        align-items: center;
+      }
+
+      .password-requirements li:before {
+        content: "✓";
+        margin-right: 0.5rem;
+        opacity: 0.5;
+      }
+
+      .password-requirements li.met:before {
+        opacity: 1;
+        color: var(--light-green);
+      }
+
+      /* Checkbox */
+      .checkbox-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .checkbox-group input[type="checkbox"] {
+        width: auto;
+        margin-top: 0.3rem;
+        cursor: pointer;
+      }
+
+      .checkbox-group label {
+        margin: 0;
+        font-weight: normal;
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+
+      /* Buttons */
+      .btn-submit {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(
+          135deg,
+          var(--light-green) 0%,
+          var(--accent-green) 100%
+        );
+        color: var(--light-text);
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+      }
+
+      .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+      }
+
+      .btn-submit:active {
+        transform: translateY(0);
+      }
+
+      .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      /* Form Divider */
+      .form-divider {
+        display: flex;
+        align-items: center;
+        margin: 1.5rem 0;
+        color: var(--gray-text);
+      }
+
+      .form-divider::before,
+      .form-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background-color: #e0e0e0;
+      }
+
+      .form-divider span {
+        padding: 0 1rem;
+        font-size: 0.9rem;
+      }
+
+      /* Social Auth */
+      .social-auth {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .social-btn {
+        padding: 0.8rem;
+        border: 2px solid #e0e0e0;
+        background-color: var(--light-text);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        font-weight: 600;
+        color: var(--dark-text);
+      }
+
+      .social-btn:hover {
+        border-color: var(--light-green);
+        background-color: var(--pale-green);
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        margin-top: 3rem;
+        color: var(--light-text);
+      }
+
+      footer p {
+        font-size: 0.9rem;
+      }
+
+      footer a {
+        color: var(--accent-green);
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .auth-container {
+          padding: 2rem;
+          margin-top: 70px;
+        }
+
+        .auth-header h1 {
+          font-size: 1.5rem;
+        }
+
+        .nav-links {
+          gap: 1rem;
+          font-size: 0.9rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .nav-container {
+          padding: 0 1rem;
+        }
+
+        .logo {
+          font-size: 1.3rem;
+        }
+
+        .logo span {
+          font-size: 1.5rem;
+        }
+
+        .auth-container {
+          padding: 1.5rem;
+          margin-top: 60px;
+        }
+
+        .auth-header h1 {
+          font-size: 1.3rem;
+        }
+
+        input,
+        select {
+          font-size: 16px; /* Prevents zoom on iOS */
+        }
+
+        .social-auth {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <div class="nav-container">
+        <a href="/" class="logo"> <span>🌱</span> Tuwaze </a>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/login">Login</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Sign Up Container -->
+    <div class="auth-container">
+      <div class="auth-header">
+        <h1>Create Account</h1>
+        <p>
+          Join Tuwaze and empower your community. Already have an account?
+          <a href="/login">Login here</a>
+        </p>
+      </div>
+
+      <form id="signupForm" method="POST" action="/signup">
+        <!-- Personal Information -->
+        <div class="form-group">
+          <label for="fullname">Full Name *</label>
+          <input
+            type="text"
+            id="fullname"
+            name="fullname"
+            placeholder="John Doe"
+            required
+          />
+          <div class="error-message"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="you@example.com"
+            required
+          />
+          <div class="error-message"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="+254 (0) 700 000 000"
+          />
+          <div class="error-message"></div>
+        </div>
+
+        <!-- Location -->
+        <div class="form-group">
+          <label for="location">Location/Ward *</label>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            placeholder="e.g., Kapseret Ward"
+            required
+          />
+          <div class="error-message"></div>
+        </div>
+
+        <!-- Gender -->
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+          </select>
+          <div class="error-message"></div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Password *</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter a strong password"
+            required
+          />
+          <div class="password-requirements">
+            <strong>Password must contain:</strong>
+            <ul>
+              <li class="length-check">At least 8 characters</li>
+              <li class="uppercase-check">At least one uppercase letter</li>
+              <li class="lowercase-check">At least one lowercase letter</li>
+              <li class="number-check">At least one number</li>
+              <li class="special-check">
+                At least one special character (!@#$%^&*)
+              </li>
+            </ul>
+          </div>
+          <div class="error-message"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password *</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Confirm your password"
+            required
+          />
+          <div class="error-message"></div>
+        </div>
+
+        <!-- Terms & Conditions -->
+        <div class="checkbox-group">
+          <input type="checkbox" id="terms" name="terms" required />
+          <label for="terms"
+            >I agree to the
+            <a href="#" style="color: var(--light-green)">Terms & Conditions</a>
+            and
+            <a href="#" style="color: var(--light-green)"
+              >Privacy Policy</a
+            ></label
+          >
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="newsletter" name="newsletter" />
+          <label for="newsletter"
+            >Send me updates about community issues and platform features</label
+          >
+        </div>
+
+        <button type="submit" class="btn-submit">Create Account</button>
+
+        <!-- Already have account -->
+        <p
+          style="
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--gray-text);
+          "
+        >
+          Already have an account?
+          <a href="/login" style="color: var(--light-green); font-weight: 600"
+            >Login here</a
+          >
+        </p>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2024 Tuwaze. Let's enlighten together.</p>
+    </footer>
+
+    <script>
+      const form = document.getElementById("signupForm");
+      const passwordInput = document.getElementById("password");
+      const passwordRequirements = document.querySelectorAll(
+        ".password-requirements li",
+      );
+
+      // Password validation
+      passwordInput.addEventListener("input", function () {
+        const password = this.value;
+        const checks = {
+          "length-check": password.length >= 8,
+          "uppercase-check": /[A-Z]/.test(password),
+          "lowercase-check": /[a-z]/.test(password),
+          "number-check": /[0-9]/.test(password),
+          "special-check": /[!@#$%^&*]/.test(password),
+        };
+
+        Object.entries(checks).forEach(([className, isValid]) => {
+          const element = document.querySelector("." + className);
+          if (isValid) {
+            element.classList.add("met");
+          } else {
+            element.classList.remove("met");
+          }
+        });
+      });
+
+      // Form validation
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        let isValid = true;
+
+        // Clear previous errors
+        document.querySelectorAll(".error-message").forEach((el) => {
+          el.classList.remove("show");
+        });
+        document.querySelectorAll("input").forEach((el) => {
+          el.classList.remove("error");
+        });
+
+        // Validate full name
+        const fullname = document.getElementById("fullname").value.trim();
+        if (!fullname) {
+          showError("fullname", "Full name is required");
+          isValid = false;
+        }
+
+        // Validate email
+        const email = document.getElementById("email").value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email) {
+          showError("email", "Email is required");
+          isValid = false;
+        } else if (!emailRegex.test(email)) {
+          showError("email", "Please enter a valid email address");
+          isValid = false;
+        }
+
+        // Validate location
+        const location = document.getElementById("location").value.trim();
+        if (!location) {
+          showError("location", "Location/Ward is required");
+          isValid = false;
+        }
+
+        // Validate password
+        const password = document.getElementById("password").value;
+        if (!password) {
+          showError("password", "Password is required");
+          isValid = false;
+        } else if (
+          !/[A-Z]/.test(password) ||
+          !/[a-z]/.test(password) ||
+          !/[0-9]/.test(password) ||
+          password.length < 8
+        ) {
+          showError("password", "Password does not meet requirements");
+          isValid = false;
+        }
+
+        // Validate confirm password
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+        if (password !== confirmPassword) {
+          showError("confirmPassword", "Passwords do not match");
+          isValid = false;
+        }
+
+        // Validate terms
+        if (!document.getElementById("terms").checked) {
+          alert("You must agree to the Terms & Conditions");
+          isValid = false;
+        }
+
+        if (isValid) {
+          // Here you would normally submit the form
+          alert("Account created successfully!");
+          // form.submit();
+        }
+      });
+
+      function showError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        const errorDiv = field.nextElementSibling;
+        field.classList.add("error");
+        errorDiv.textContent = message;
+        errorDiv.classList.add("show");
+      }
+    </script>
+  </body>
+</html>

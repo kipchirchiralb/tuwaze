@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tuwaze - Community Safety & Civic Engagement Platform</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-green: #1b5e20;
+        --secondary-green: #2e7d32;
+        --light-green: #4caf50;
+        --accent-green: #66bb6a;
+        --pale-green: #e8f5e9;
+        --dark-text: #212121;
+        --light-text: #ffffff;
+        --gray-text: #757575;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--dark-text);
+        overflow-x: hidden;
+      }
+
+      /* Navigation */
+      nav {
+        background: linear-gradient(
+          135deg,
+          var(--primary-green) 0%,
+          var(--secondary-green) 100%
+        );
+        padding: 1.2rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(27, 94, 32, 0.1);
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--light-text);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .logo span {
+        font-size: 2rem;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: var(--light-text);
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-weight: 500;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent-green);
+      }
+
+      .cta-button {
+        background-color: var(--light-green);
+        color: var(--light-text);
+        padding: 0.8rem 1.5rem;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        font-weight: 600;
+      }
+
+      .cta-button:hover {
+        background-color: var(--accent-green);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(
+          135deg,
+          var(--primary-green) 0%,
+          var(--secondary-green) 100%
+        );
+        color: var(--light-text);
+        padding: 100px 2rem;
+        text-align: center;
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+        animation: fadeInUp 1s ease-out;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+
+      .hero p {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+        opacity: 0.95;
+        line-height: 1.8;
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn-primary {
+        background-color: var(--light-green);
+        color: var(--light-text);
+        padding: 1rem 2.5rem;
+        border: none;
+        border-radius: 30px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--accent-green);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(76, 175, 80, 0.4);
+      }
+
+      .btn-secondary {
+        background-color: transparent;
+        color: var(--light-text);
+        padding: 1rem 2.5rem;
+        border: 2px solid var(--light-green);
+        border-radius: 30px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-secondary:hover {
+        background-color: var(--light-green);
+        transform: translateY(-3px);
+      }
+
+      /* Features Section */
+      .features {
+        padding: 80px 2rem;
+        background-color: var(--pale-green);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        color: var(--primary-green);
+        margin-bottom: 3rem;
+        font-weight: 700;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+      }
+
+      .feature-card {
+        background: var(--light-text);
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(27, 94, 32, 0.1);
+        transition: all 0.3s ease;
+        border-top: 4px solid var(--light-green);
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 25px rgba(27, 94, 32, 0.2);
+      }
+
+      .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      .feature-card h3 {
+        color: var(--primary-green);
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .feature-card p {
+        color: var(--gray-text);
+        line-height: 1.8;
+      }
+
+      /* How It Works Section */
+      .how-it-works {
+        padding: 80px 2rem;
+        background-color: var(--light-text);
+      }
+
+      .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .step-card {
+        position: relative;
+        padding: 2rem;
+        background: linear-gradient(135deg, var(--pale-green) 0%, #f1f8e9 100%);
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .step-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        background-color: var(--light-green);
+        color: var(--light-text);
+        border-radius: 50%;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+      }
+
+      .step-card h3 {
+        color: var(--primary-green);
+        margin-bottom: 0.5rem;
+      }
+
+      .step-card p {
+        color: var(--gray-text);
+      }
+
+      /* CTA Section */
+      .cta-section {
+        background: linear-gradient(
+          135deg,
+          var(--secondary-green) 0%,
+          var(--light-green) 100%
+        );
+        color: var(--light-text);
+        padding: 80px 2rem;
+        text-align: center;
+      }
+
+      .cta-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .cta-section p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.95;
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--primary-green);
+        color: var(--light-text);
+        padding: 3rem 2rem;
+        text-align: center;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+        text-align: left;
+      }
+
+      .footer-section h3 {
+        color: var(--accent-green);
+        margin-bottom: 1rem;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 0.5rem;
+      }
+
+      .footer-section a {
+        color: var(--light-text);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-section a:hover {
+        color: var(--accent-green);
+      }
+
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        padding-top: 2rem;
+        text-align: center;
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .nav-links {
+          gap: 1rem;
+          font-size: 0.9rem;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero p {
+          font-size: 1.1rem;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .hero-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+          width: 100%;
+          max-width: 300px;
+        }
+
+        .cta-section h2 {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .nav-container {
+          padding: 0 1rem;
+        }
+
+        .logo {
+          font-size: 1.3rem;
+        }
+
+        .logo span {
+          font-size: 1.5rem;
+        }
+
+        .nav-links {
+          gap: 0.5rem;
+          font-size: 0.8rem;
+        }
+
+        .hero {
+          padding: 60px 1rem;
+          min-height: 60vh;
+        }
+
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .hero p {
+          font-size: 1rem;
+        }
+
+        .features,
+        .how-it-works,
+        .cta-section {
+          padding: 40px 1rem;
+        }
+
+        .section-title {
+          font-size: 1.5rem;
+        }
+
+        .feature-card,
+        .step-card {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <div class="nav-container">
+        <a href="/" class="logo"> <span>🌱</span> Tuwaze </a>
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="/dashboard" class="cta-button">Dashboard</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Empower Your Community</h1>
+        <p>
+          Tuwaze: Let's enlighten. Report issues, access justice information,
+          and participate in local governance — all in one platform.
+        </p>
+        <div class="hero-buttons">
+          <button class="btn-primary">Get Started</button>
+          <button class="btn-secondary">Learn More</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+      <div class="container">
+        <h2 class="section-title">Key Features</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <span class="feature-icon">📍</span>
+            <h3>Instant Community Reporting</h3>
+            <p>
+              Report non-emergency safety concerns with photos and location.
+              Connect directly with relevant county departments.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">📚</span>
+            <h3>Justice & Legal Support</h3>
+            <p>
+              Searchable directory of legal aid services, paralegals, police
+              stations, and human rights organizations.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">🔐</span>
+            <h3>Anonymous Tip Line</h3>
+            <p>
+              Securely report sensitive issues with optional two-way messaging
+              for corruption and human rights concerns.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">🗣️</span>
+            <h3>Community Voice Forum</h3>
+            <p>
+              Discuss local issues, propose solutions, and vote on priorities
+              that matter to your neighborhood.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">📅</span>
+            <h3>GovConnect</h3>
+            <p>
+              Track local government meetings, agendas, and outcomes. Submit
+              agenda ideas and ask questions.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">📊</span>
+            <h3>Transparency Dashboard</h3>
+            <p>
+              Open data on county expenditures, project timelines, and how
+              quickly reports are addressed.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+      <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h3>Report</h3>
+            <p>
+              Identify an issue in your community and submit a detailed report
+              with evidence.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h3>Connect</h3>
+            <p>
+              Your report reaches the right authorities and community leaders
+              for action.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h3>Track</h3>
+            <p>
+              Monitor progress and see real results in your community through
+              our transparency dashboard.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <h3>Engage</h3>
+            <p>
+              Participate in community discussions and help shape local
+              governance decisions.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <h2>Ready to Make a Difference?</h2>
+        <p>
+          Join thousands of citizens making their communities safer and more
+          transparent.
+        </p>
+        <button class="btn-primary">Join Tuwaze Today</button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About Tuwaze</h3>
+          <p>
+            Tuwaze is a civic engagement platform empowering residents to report
+            issues, access justice information, and participate in local
+            governance.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact</h3>
+          <ul>
+            <li><a href="mailto:info@tuwaze.com">info@tuwaze.com</a></li>
+            <li><a href="tel:+254700000000">+254 (0) 700 000 000</a></li>
+            <li>Eldoret, Uasin Gishu County</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2024 Tuwaze. All rights reserved. Let's enlighten together.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

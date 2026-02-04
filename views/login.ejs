@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Tuwaze</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-green: #1b5e20;
+        --secondary-green: #2e7d32;
+        --light-green: #4caf50;
+        --accent-green: #66bb6a;
+        --pale-green: #e8f5e9;
+        --dark-text: #212121;
+        --light-text: #ffffff;
+        --gray-text: #757575;
+        --error-red: #d32f2f;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--dark-text);
+        background: linear-gradient(
+          135deg,
+          var(--primary-green) 0%,
+          var(--secondary-green) 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: linear-gradient(
+          135deg,
+          var(--primary-green) 0%,
+          var(--secondary-green) 100%
+        );
+        padding: 1.2rem 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(27, 94, 32, 0.1);
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--light-text);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .logo span {
+        font-size: 2rem;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: var(--light-text);
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-weight: 500;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent-green);
+      }
+
+      /* Auth Container */
+      .auth-container {
+        background: var(--light-text);
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 400px;
+        padding: 3rem;
+        margin-top: 80px;
+        animation: slideUp 0.5s ease-out;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .auth-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .auth-header h1 {
+        font-size: 2rem;
+        color: var(--primary-green);
+        margin-bottom: 0.5rem;
+      }
+
+      .auth-header p {
+        color: var(--gray-text);
+        font-size: 0.95rem;
+      }
+
+      .auth-header a {
+        color: var(--light-green);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .auth-header a:hover {
+        color: var(--secondary-green);
+      }
+
+      /* Form Styles */
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--dark-text);
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.9rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-family: inherit;
+        transition: all 0.3s ease;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: var(--light-green);
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+      }
+
+      input::placeholder {
+        color: #bdbdbd;
+      }
+
+      /* Error States */
+      input.error {
+        border-color: var(--error-red);
+      }
+
+      input.error:focus {
+        box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+      }
+
+      .error-message {
+        color: var(--error-red);
+        font-size: 0.85rem;
+        margin-top: 0.3rem;
+        display: none;
+      }
+
+      .error-message.show {
+        display: block;
+      }
+
+      /* Remember Me & Forgot Password */
+      .form-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .checkbox-group input[type="checkbox"] {
+        width: auto;
+        cursor: pointer;
+      }
+
+      .checkbox-group label {
+        margin: 0;
+        font-weight: normal;
+        cursor: pointer;
+      }
+
+      .forgot-password {
+        color: var(--light-green);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .forgot-password:hover {
+        color: var(--secondary-green);
+      }
+
+      /* Buttons */
+      .btn-submit {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(
+          135deg,
+          var(--light-green) 0%,
+          var(--accent-green) 100%
+        );
+        color: var(--light-text);
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+      }
+
+      .btn-submit:active {
+        transform: translateY(0);
+      }
+
+      .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      /* Form Divider */
+      .form-divider {
+        display: flex;
+        align-items: center;
+        margin: 1.5rem 0;
+        color: var(--gray-text);
+      }
+
+      .form-divider::before,
+      .form-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background-color: #e0e0e0;
+      }
+
+      .form-divider span {
+        padding: 0 1rem;
+        font-size: 0.9rem;
+      }
+
+      /* Social Auth */
+      .social-auth {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .social-btn {
+        padding: 0.8rem;
+        border: 2px solid #e0e0e0;
+        background-color: var(--light-text);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        font-weight: 600;
+        color: var(--dark-text);
+      }
+
+      .social-btn:hover {
+        border-color: var(--light-green);
+        background-color: var(--pale-green);
+      }
+
+      /* Sign Up Link */
+      .signup-link {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: var(--gray-text);
+      }
+
+      .signup-link a {
+        color: var(--light-green);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .signup-link a:hover {
+        text-decoration: underline;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        margin-top: 3rem;
+        color: var(--light-text);
+      }
+
+      footer p {
+        font-size: 0.9rem;
+      }
+
+      footer a {
+        color: var(--accent-green);
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Alert Messages */
+      .alert {
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        display: none;
+      }
+
+      .alert.error {
+        background-color: #ffebee;
+        color: var(--error-red);
+        border-left: 4px solid var(--error-red);
+        display: block;
+      }
+
+      .alert.success {
+        background-color: var(--pale-green);
+        color: var(--primary-green);
+        border-left: 4px solid var(--light-green);
+        display: block;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .auth-container {
+          padding: 2rem;
+          margin-top: 70px;
+        }
+
+        .auth-header h1 {
+          font-size: 1.5rem;
+        }
+
+        .nav-links {
+          gap: 1rem;
+          font-size: 0.9rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .nav-container {
+          padding: 0 1rem;
+        }
+
+        .logo {
+          font-size: 1.3rem;
+        }
+
+        .logo span {
+          font-size: 1.5rem;
+        }
+
+        .auth-container {
+          padding: 1.5rem;
+          margin-top: 60px;
+        }
+
+        .auth-header h1 {
+          font-size: 1.3rem;
+        }
+
+        input {
+          font-size: 16px; /* Prevents zoom on iOS */
+        }
+
+        .social-auth {
+          grid-template-columns: 1fr;
+        }
+
+        .form-footer {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <div class="nav-container">
+        <a href="/" class="logo"> <span>🌱</span> Tuwaze </a>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/signup">Sign Up</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Login Container -->
+    <div class="auth-container">
+      <div class="auth-header">
+        <h1>Welcome Back</h1>
+        <p>Login to your Tuwaze account and continue making a difference.</p>
+      </div>
+
+      <div class="alert error" id="errorAlert"></div>
+      <div class="alert success" id="successAlert"></div>
+
+      <form id="loginForm" method="POST" action="/login">
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="you@example.com"
+            required
+          />
+          <div class="error-message"></div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Password *</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+          <div class="error-message"></div>
+        </div>
+
+        <!-- Remember Me & Forgot Password -->
+        <div class="form-footer">
+          <div class="checkbox-group">
+            <input type="checkbox" id="remember" name="remember" />
+            <label for="remember">Remember me</label>
+          </div>
+          <a href="#" class="forgot-password">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-submit">Login</button>
+
+        <!-- Social Auth Divider -->
+        <div class="form-divider">
+          <span>Or continue with</span>
+        </div>
+
+        <!-- Social Auth Buttons -->
+        <div class="social-auth">
+          <button type="button" class="social-btn">Google</button>
+          <button type="button" class="social-btn">Facebook</button>
+        </div>
+
+        <!-- Sign Up Link -->
+        <div class="signup-link">
+          Don't have an account? <a href="/signup">Create one here</a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2024 Tuwaze. Let's enlighten together.</p>
+    </footer>
+
+    <script>
+      const form = document.getElementById("loginForm");
+      const errorAlert = document.getElementById("errorAlert");
+      const successAlert = document.getElementById("successAlert");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        let isValid = true;
+
+        // Clear previous errors
+        document.querySelectorAll(".error-message").forEach((el) => {
+          el.classList.remove("show");
+        });
+        document.querySelectorAll("input").forEach((el) => {
+          el.classList.remove("error");
+        });
+        errorAlert.classList.remove("show");
+
+        // Validate email
+        const email = document.getElementById("email").value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email) {
+          showError("email", "Email is required");
+          isValid = false;
+        } else if (!emailRegex.test(email)) {
+          showError("email", "Please enter a valid email address");
+          isValid = false;
+        }
+
+        // Validate password
+        const password = document.getElementById("password").value;
+        if (!password) {
+          showError("password", "Password is required");
+          isValid = false;
+        }
+
+        if (isValid) {
+          // Here you would normally submit the form
+          showSuccess("Login successful! Redirecting...");
+          setTimeout(() => {
+            // window.location.href = '/dashboard';
+          }, 2000);
+        }
+      });
+
+      function showError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        const errorDiv = field.nextElementSibling;
+        field.classList.add("error");
+        errorDiv.textContent = message;
+        errorDiv.classList.add("show");
+      }
+
+      function showSuccess(message) {
+        successAlert.textContent = message;
+        successAlert.classList.add("show");
+      }
+
+      // Forgot Password Link
+      document
+        .querySelector(".forgot-password")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          const email = document.getElementById("email").value;
+          if (email) {
+            alert("Password reset link sent to " + email);
+          } else {
+            alert("Please enter your email address first");
+          }
+        });
+
+      // Social Auth Buttons
+      document.querySelectorAll(".social-btn").forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          const provider = this.textContent;
+          alert(provider + " login would be implemented here");
+        });
+      });
+    </script>
+  </body>
+</html>

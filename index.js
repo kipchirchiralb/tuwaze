@@ -9,18 +9,30 @@ const connection = mysql.createConnection({
   password: "password",
   port: 3307,
 });
+app.get("/", (req, res) => {
+  res.render("home.ejs");
+});
+app.get("/signup", (req, res) => {
+  res.render("signup.ejs");
+});
+app.get("/login", (req, res) => {
+  res.render("login.ejs");
+});
 app.get("/dashboard", (req, res) => {
   connection.query("SELECT * FROM users;", (dbError, queryResult) => {
     if (dbError) {
       console.log("DB error occured: " + dbError.message);
     } else {
       console.log(getGenderCount(queryResult));
-      res.render("dashboard.ejs", {allUsers: queryResult, maleFemaleCount: getGenderCount(queryResult)} )
+      res.render("dashboard.ejs", {
+        allUsers: queryResult,
+        maleFemaleCount: getGenderCount(queryResult),
+      });
     }
   });
 });
 
-app.listen(3000)
+app.listen(3000); // starting the app
 // hoisting in js
 function getGenderCount(users) {
   return users.reduce(
