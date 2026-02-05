@@ -16,7 +16,7 @@ CREATE TABLE users (
     email VARCHAR(150) UNIQUE,
     gender VARCHAR(20),
     password_hash VARCHAR(255) NOT NULL,
-    role ENUM('citizen', 'official', 'moderator', 'legal_aid') NOT NULL,
+    role ENUM('citizen', 'official', 'moderator', 'legal_aid') NOT NULL DEFAULT "citizen",
     ward VARCHAR(100),
     is_anonymous_allowed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

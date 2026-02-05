@@ -1,5 +1,6 @@
 const mysql = require("mysql2");
 const express = require("express");
+const { getGenderCount } = require("./utilityFunctions");
 const app = express();
 
 const connection = mysql.createConnection({
@@ -15,6 +16,19 @@ app.get("/", (req, res) => {
 app.get("/signup", (req, res) => {
   res.render("signup.ejs");
 });
+// bcrypt - hash/encrypt passwords
+app.post("/signup", express.urlencoded({ extended: true }), (req, res) => {
+  const insertStatement = `INSERT INTO users(full_name, phone_number, email, gender, password_hash, role, ward, is_anonymous_allowed) VALUES('${req.body.fullname}', '${req.body.phone}', '${req.body.email}', '${req.body.gender}', '${req.body.password}', 'citizen', '${req.body.location}', TRUE);`;
+
+  connection.query(insertStatement, (insertError) => {
+    if (insertError) {
+      res.status(500).send("Server Error!!" + insertError.message);
+    } else {
+      res.redirect("/login");
+    }
+  });
+});
+
 app.get("/login", (req, res) => {
   res.render("login.ejs");
 });
@@ -32,15 +46,5 @@ app.get("/dashboard", (req, res) => {
   });
 });
 
-app.listen(3000); // starting the app
+app.listen(3000, () => console.log("server running")); // starting the app
 // hoisting in js
-function getGenderCount(users) {
-  return users.reduce(
-    (count, user) => {
-      if (user.gender === "Male") count.male += 1;
-      if (user.gender === "Female") count.female += 1;
-      return count;
-    },
-    { male: 0, female: 0 },
-  );
-}

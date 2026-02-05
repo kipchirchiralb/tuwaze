@@ -423,7 +423,7 @@
         </p>
       </div>
 
-      <form id="signupForm" method="POST" action="/signup">
+      <form id="signupForm" method="POST" action="http://localhost:3000/signup">
         <!-- Personal Information -->
         <div class="form-group">
           <label for="fullname">Full Name *</label>
@@ -662,9 +662,7 @@
         }
 
         if (isValid) {
-          // Here you would normally submit the form
-          alert("Account created successfully!");
-          // form.submit();
+          form.submit();
         }
       });
 
