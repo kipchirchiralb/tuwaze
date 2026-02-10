@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Page Not Found | Tuwaze</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-green: #1b5e20;
+        --secondary-green: #2e7d32;
+        --light-green: #4caf50;
+        --accent-green: #66bb6a;
+        --pale-green: #e8f5e9;
+        --dark-text: #212121;
+        --light-text: #ffffff;
+        --gray-text: #757575;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--dark-text);
+        background: linear-gradient(
+          135deg,
+          var(--primary-green) 0%,
+          var(--secondary-green) 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Navigation */
+      nav {
+        background: linear-gradient(
+          135deg,
+          var(--primary-green) 0%,
+          var(--secondary-green) 100%
+        );
+        padding: 1.2rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(27, 94, 32, 0.1);
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        width: 100%;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--light-text);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .logo span {
+        font-size: 2rem;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: var(--light-text);
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-weight: 500;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent-green);
+      }
+
+      /* Error Container */
+      .error-container {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 2rem;
+      }
+
+      .error-content {
+        background: var(--light-text);
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        padding: 3rem;
+        text-align: center;
+        max-width: 500px;
+        width: 100%;
+        animation: slideUp 0.5s ease-out;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .error-code {
+        font-size: 5rem;
+        font-weight: bold;
+        color: var(--primary-green);
+        line-height: 1;
+        margin-bottom: 1rem;
+      }
+
+      .error-title {
+        font-size: 1.8rem;
+        color: var(--dark-text);
+        margin-bottom: 1rem;
+        font-weight: 600;
+      }
+
+      .error-message {
+        font-size: 1rem;
+        color: var(--gray-text);
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+
+      .error-illustration {
+        font-size: 4rem;
+        margin: 1.5rem 0;
+      }
+
+      .actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        flex-direction: column;
+      }
+
+      .btn {
+        padding: 0.8rem 2rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary-green) 0%,
+          var(--secondary-green) 100%
+        );
+        color: var(--light-text);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(27, 94, 32, 0.3);
+      }
+
+      .btn-secondary {
+        background: var(--pale-green);
+        color: var(--primary-green);
+        border: 2px solid var(--primary-green);
+      }
+
+      .btn-secondary:hover {
+        background: var(--primary-green);
+        color: var(--light-text);
+        transform: translateY(-2px);
+      }
+
+      @media (max-width: 768px) {
+        .error-code {
+          font-size: 3rem;
+        }
+
+        .error-title {
+          font-size: 1.5rem;
+        }
+
+        .nav-links {
+          gap: 1rem;
+        }
+
+        .error-content {
+          padding: 2rem;
+          margin: 1rem;
+        }
+
+        .actions {
+          flex-direction: column;
+        }
+
+        .btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <div class="nav-container">
+        <a href="/" class="logo">
+          <span>🛡️</span>
+          <span>Tuwaze</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/login">Login</a></li>
+          <li><a href="/signup">Sign Up</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Error Content -->
+    <div class="error-container">
+      <div class="error-content">
+        <div class="error-illustration">🔍</div>
+        <div class="error-code">404</div>
+        <h1 class="error-title">Page Not Found</h1>
+        <p class="error-message">
+          Sorry, the page you're looking for doesn't exist. It might have been
+          moved or deleted.
+        </p>
+        <div class="actions">
+          <a href="/" class="btn btn-primary">Go to Home</a>
+          <a href="javascript:history.back()" class="btn btn-secondary"
+            >Go Back</a
+          >
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

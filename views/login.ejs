@@ -447,7 +447,7 @@
       <div class="alert error" id="errorAlert"></div>
       <div class="alert success" id="successAlert"></div>
 
-      <form id="loginForm" method="POST" action="/login">
+      <form id="loginForm" method="POST" action="/auth">
         <!-- Email -->
         <div class="form-group">
           <label for="email">Email Address *</label>
@@ -546,10 +546,7 @@
 
         if (isValid) {
           // Here you would normally submit the form
-          showSuccess("Login successful! Redirecting...");
-          setTimeout(() => {
-            // window.location.href = '/dashboard';
-          }, 2000);
+          form.submit();
         }
       });
 
