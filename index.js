@@ -27,6 +27,7 @@ const privateRoutes = ["/dashboard", "/profile"];
 app.use((req, res, next) => {
   console.log("Middleware function executed!!");
   if (req.session.user) {
+    // a valid cookie with the user details was found in the request
     isLoggedIn = true;
     loggedInUser = req.session.user;
   } else {
