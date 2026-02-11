@@ -3,19 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Dashboard - Tuwaze</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-    <h1>Male:  <%= maleFemaleCount.male %> </h1>
-    <h1>Female:  <%= maleFemaleCount.female %> </h1>
+    <%- include("./partials/header.ejs") %>
 
-    <ol>
-        <% allUsers.forEach(user=>{%>
+    <main>
+        <h1>Dashboard</h1>
 
-            <li> <%= user.full_name %> </li>
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>Male Users</h3>
+                <div class="number"><%= maleFemaleCount.male %></div>
+            </div>
+            <div class="stat-card">
+                <h3>Female Users</h3>
+                <div class="number"><%= maleFemaleCount.female %></div>
+            </div>
+        </div>
 
-        <% }) %>
-    </ol>
-
+        <h2>All Users</h2>
+        <ol>
+            <% allUsers.forEach(user=>{%>
+                <li><%= user.full_name %></li>
+            <% }) %>
+        </ol>
+    </main>
 </body>
 </html>

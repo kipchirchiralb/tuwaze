@@ -17,7 +17,7 @@ app.use(
     secret: "encryptionKey",
     resave: false,
     saveUninitialized: true,
-    options: { secure: true, expires: new Date(Date.now() + 60 * 60 * 1000) }, // 1 hour
+    cookie: { secure: false, maxAge: 1000 * 60 * 60 }, // 1 hour
   }),
 );
 let isLoggedIn;
@@ -40,6 +40,7 @@ app.use((req, res, next) => {
   }
 });
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public")); // to serve static files like css, js, images, etc from the public folder
 
 // 3. register route/pages/endpoint handlers
 app.get("/", (req, res) => {
