@@ -36,7 +36,7 @@ app.use((req, res, next) => {
   if (isLoggedIn || !privateRoutes.includes(req.path)) {
     next();
   } else {
-    res.status(401).send("Unauthorized!!");
+    res.status(401).render("401.ejs");
   }
 });
 app.use(express.urlencoded({ extended: true }));
