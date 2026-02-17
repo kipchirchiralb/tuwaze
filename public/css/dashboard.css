@@ -174,3 +174,8 @@ button:hover {
     padding: 0.8rem 0.5rem;
   }
 }
+
+section{
+ height: 50vh;
+ overflow: scroll;
+}

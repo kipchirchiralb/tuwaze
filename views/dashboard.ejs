@@ -22,14 +22,33 @@
                 <h3>Female Users</h3>
                 <div class="number"><%= maleFemaleCount.female %></div>
             </div>
+            <div class="stat-card">
+                <h3> Tips Submitted</h3>
+                <div class="number"><%= allTips.length %></div>
+            </div>
         </div>
-
+        <section>
         <h2>All Users</h2>
         <ol>
             <% allUsers.forEach(user=>{%>
                 <li><%= user.full_name %></li>
             <% }) %>
         </ol>
+        </section>
+        <section>
+            <h2>Anonymous Tips</h2>
+            <ul>
+            <% allTips.forEach(tip => { %>
+                <li>
+                    <strong>Type:</strong> <%= tip.category %><br>
+                    <strong>Description:</strong> <%= tip.description %><br>
+                    <strong>Date:</strong> <%= new Date(tip.created_at).toLocaleString() %> <br>
+                    <strong>Status:</strong> <%= tip.status %>
+                </li>
+            <% }) %>
+        </section>
     </main>
 </body>
 </html>
+<!-- create a new submit report page(protected) -->
+ <!--  create a new view reports page(protected) -->
