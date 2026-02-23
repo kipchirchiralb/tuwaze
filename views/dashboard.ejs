@@ -29,11 +29,25 @@
         </div>
         <section>
         <h2>All Users</h2>
-        <ol>
+        <table>
+            <thead>
+                <td>User Name</td>
+                <td>Phone Number</td>
+                <td>Email</td>
+                <td>Gender</td>
+            </thead>
             <% allUsers.forEach(user=>{%>
-                <li><%= user.full_name %></li>
+                <tr style="color: <%= user.gender=="Male"? "black":"pink"%>" >
+                    <td><%= user.full_name %></td>
+                    <td><%= user.phone_number %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.gender%></td>
+                </tr>
+               
             <% }) %>
-        </ol>
+        </table>
+            
+       
         </section>
         <section>
             <h2>Anonymous Tips</h2>

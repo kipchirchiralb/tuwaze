@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Submit Report - Tuwaze</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <%- include("./partials/header.ejs") %>
+
+    <!-- Report Container -->
+    <main>
+      <div class="auth-container">
+        <div class="auth-header">
+          <h1>Submit a Report</h1>
+          <p>
+            Help us improve our community by reporting issues. Your report will
+            be reviewed by authorities.
+          </p>
+        </div>
+
+        <div class="alert error" id="errorAlert"></div>
+        <div class="alert success" id="successAlert"></div>
+
+        <form id="reportForm" method="POST" action="/report">
+          <!-- Category -->
+          <div class="form-group">
+            <label for="category">Category *</label>
+            <select id="category" name="category" required>
+              <option value="">Select a category</option>
+              <option value="safety">Safety</option>
+              <option value="corruption">Corruption</option>
+              <option value="infrastructure">Infrastructure</option>
+              <option value="dispute">Dispute</option>
+            </select>
+            <div class="error-message"></div>
+          </div>
+
+          <!-- Title -->
+          <div class="form-group">
+            <label for="title">Title *</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder="Brief title for your report"
+              required
+            />
+            <div class="error-message"></div>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label for="description">Description *</label>
+            <textarea
+              id="description"
+              name="description"
+              placeholder="Detailed description of the issue"
+              rows="5"
+              required
+            ></textarea>
+            <div class="error-message"></div>
+          </div>
+
+          <!-- Location -->
+          <div class="form-group">
+            <label>Location *</label>
+            <input
+              type="text"
+              name="location_description"
+              id="location_description"
+            />
+            <button
+              type="button"
+              id="getLocationBtn"
+              class="btn-submit"
+              style="width: auto; margin-bottom: 0.5rem"
+            >
+              Get Current Location
+            </button>
+            <div id="locationInfo" style="display: none">
+              <p>Latitude: <span id="latitude"></span></p>
+              <p>Longitude: <span id="longitude"></span></p>
+            </div>
+            <input type="hidden" id="latitudeInput" name="latitude" />
+            <input type="hidden" id="longitudeInput" name="longitude" />
+            <div class="error-message"></div>
+          </div>
+
+          <!-- Anonymous -->
+          <div class="form-group">
+            <label>Do you want to submit this report anonymously?</label>
+            <div class="radio-group">
+              <input
+                type="radio"
+                id="anonymous_yes"
+                name="is_anonymous"
+                value="true"
+              />
+              <label for="anonymous_yes">Yes</label>
+              <input
+                type="radio"
+                id="anonymous_no"
+                name="is_anonymous"
+                value="false"
+                checked
+              />
+              <label for="anonymous_no">No</label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn" disabled>
+            Submit Report
+          </button>
+        </form>
+      </div>
+    </main>
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2024 Tuwaze. Let's enlighten together.</p>
+    </footer>
+
+    <script>
+      const form = document.getElementById("reportForm");
+      const errorAlert = document.getElementById("errorAlert");
+      const successAlert = document.getElementById("successAlert");
+      const getLocationBtn = document.getElementById("getLocationBtn");
+      const locationInfo = document.getElementById("locationInfo");
+      const latitudeSpan = document.getElementById("latitude");
+      const longitudeSpan = document.getElementById("longitude");
+      const latitudeInput = document.getElementById("latitudeInput");
+      const longitudeInput = document.getElementById("longitudeInput");
+      const submitBtn = document.getElementById("submitBtn");
+
+      getLocationBtn.addEventListener("click", function () {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+          alert("Geolocation is not supported by this browser.");
+        }
+      });
+
+      function showPosition(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        latitudeSpan.textContent = lat;
+        longitudeSpan.textContent = lon;
+        latitudeInput.value = lat;
+        longitudeInput.value = lon;
+        locationInfo.style.display = "block";
+        submitBtn.disabled = false;
+        getLocationBtn.textContent = "Location Updated";
+        getLocationBtn.disabled = true;
+      }
+
+      function showError(error) {
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            alert(
+              "User denied the request for Geolocation. Please allow location access to submit a report.",
+            );
+            break;
+          case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.");
+            break;
+          case error.TIMEOUT:
+            alert("The request to get user location timed out.");
+            break;
+          case error.UNKNOWN_ERROR:
+            alert("An unknown error occurred.");
+            break;
+        }
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        let isValid = true;
+
+        // Clear previous errors
+        document.querySelectorAll(".error-message").forEach((el) => {
+          el.classList.remove("show");
+        });
+        document.querySelectorAll("input, select, textarea").forEach((el) => {
+          el.classList.remove("error");
+        });
+        errorAlert.classList.remove("show");
+
+        // Validate category
+        const category = document.getElementById("category").value;
+        if (!category) {
+          showError("category", "Please select a category");
+          isValid = false;
+        }
+
+        // Validate title
+        const title = document.getElementById("title").value.trim();
+        if (!title) {
+          showError("title", "Title is required");
+          isValid = false;
+        }
+
+        // Validate description
+        const description = document.getElementById("description").value.trim();
+        if (!description) {
+          showError("description", "Description is required");
+          isValid = false;
+        }
+
+        // Validate location
+        if (!latitudeInput.value || !longitudeInput.value) {
+          alert(
+            "Location is required. Please click 'Get Current Location' and allow access.",
+          );
+          isValid = false;
+        }
+
+        if (isValid) {
+          // Submit the form
+          form.submit();
+        }
+      });
+
+      function showError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        const errorDiv = field.nextElementSibling;
+        field.classList.add("error");
+        errorDiv.textContent = message;
+        errorDiv.classList.add("show");
+      }
+
+      function showSuccess(message) {
+        successAlert.textContent = message;
+        successAlert.classList.add("show");
+      }
+    </script>
+  </body>
+</html>

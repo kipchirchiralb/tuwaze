@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Report - Tuwaze</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <%- include("./partials/header.ejs") %>
+
+    <!-- Edit Report Container -->
+    <main>
+      <div class="auth-container">
+        <div class="auth-header">
+          <h1>Edit Report</h1>
+          <p>Update your report details.</p>
+        </div>
+
+        <div class="alert error" id="errorAlert"></div>
+        <div class="alert success" id="successAlert"></div>
+
+        <form id="editReportForm" method="POST" action="/reports/<%= report.report_id %>/edit">
+          <!-- Category -->
+          <div class="form-group">
+            <label for="category">Category *</label>
+            <select id="category" name="category" required>
+              <option value="safety" <%= report.category === 'safety' ? 'selected' : '' %>>Safety</option>
+              <option value="corruption" <%= report.category === 'corruption' ? 'selected' : '' %>>Corruption</option>
+              <option value="infrastructure" <%= report.category === 'infrastructure' ? 'selected' : '' %>>Infrastructure</option>
+              <option value="dispute" <%= report.category === 'dispute' ? 'selected' : '' %>>Dispute</option>
+            </select>
+            <div class="error-message"></div>
+          </div>
+
+          <!-- Title -->
+          <div class="form-group">
+            <label for="title">Title *</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value="<%= report.title %>"
+              placeholder="Brief title for your report"
+              required
+            />
+            <div class="error-message"></div>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label for="description">Description *</label>
+            <textarea
+              id="description"
+              name="description"
+              placeholder="Detailed description of the issue"
+              rows="5"
+              required
+            ><%= report.description %></textarea>
+            <div class="error-message"></div>
+          </div>
+
+          <!-- Location Description -->
+          <div class="form-group">
+            <label for="location_description">Location Description</label>
+            <input
+              type="text"
+              id="location_description"
+              name="location_description"
+              value="<%= report.location_description || '' %>"
+              placeholder="Describe the location"
+            />
+            <div class="error-message"></div>
+          </div>
+
+          <button type="submit" class="btn-submit">Update Report</button>
+          <a href="/reports" class="btn-submit" style="background: #757575; text-decoration: none; display: inline-block; margin-left: 10px;">Cancel</a>
+        </form>
+      </div>
+    </main>
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2024 Tuwaze. Let's enlighten together.</p>
+    </footer>
+
+    <script>
+      const form = document.getElementById("editReportForm");
+      const errorAlert = document.getElementById("errorAlert");
+      const successAlert = document.getElementById("successAlert");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        let isValid = true;
+
+        // Clear previous errors
+        document.querySelectorAll(".error-message").forEach((el) => {
+          el.classList.remove("show");
+        });
+        document.querySelectorAll("input, select, textarea").forEach((el) => {
+          el.classList.remove("error");
+        });
+        errorAlert.classList.remove("show");
+
+        // Validate category
+        const category = document.getElementById("category").value;
+        if (!category) {
+          showError("category", "Please select a category");
+          isValid = false;
+        }
+
+        // Validate title
+        const title = document.getElementById("title").value.trim();
+        if (!title) {
+          showError("title", "Title is required");
+          isValid = false;
+        }
+
+        // Validate description
+        const description = document.getElementById("description").value.trim();
+        if (!description) {
+          showError("description", "Description is required");
+          isValid = false;
+        }
+
+        if (isValid) {
+          // Submit the form
+          form.submit();
+        }
+      });
+
+      function showError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        const errorDiv = field.nextElementSibling;
+        field.classList.add("error");
+        errorDiv.textContent = message;
+        errorDiv.classList.add("show");
+      }
+
+      function showSuccess(message) {
+        successAlert.textContent = message;
+        successAlert.classList.add("show");
+      }
+    </script>
+  </body>
+</html>

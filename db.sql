@@ -17,7 +17,7 @@ CREATE TABLE users (
     gender VARCHAR(20),
     password_hash VARCHAR(255) NOT NULL,
     role ENUM('citizen', 'official', 'moderator', 'legal_aid') NOT NULL DEFAULT "citizen",
-    ward VARCHAR(100),
+    ward VARCHAR(100) NULL,
     is_anonymous_allowed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
@@ -220,3 +220,6 @@ CREATE TABLE service_metrics (
     metric_value DECIMAL(10,2) NOT NULL,
     recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
+
+
+-- 7table-10tables

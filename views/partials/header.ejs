@@ -3,8 +3,17 @@
     <a href="/" class="logo"> <span>🌱</span> Tuwaze </a>
     <ul class="nav-links">
       <li><a href="#features">Features</a></li>
-      <li><a href="http://127.0.0.1:3000/signup">Sign Up</a></li>
-      <li><a href="/login">Login</a></li>
+      <% if(locals.isLoggedIn){ %>
+        <li> <a href="/report">New Report</a> </li>
+        <li> <a href="/reports">Reports</a> </li>
+        <li>
+          <a href="/logout">Logout</a>
+
+        </li>
+        <% }else{ %>
+        <li><a href="http://127.0.0.1:3000/signup">Sign Up</a></li>
+        <li><a href="/login">Login</a></li>
+          <%}%>
       <li><a href="/dashboard" class="cta-button">Dashboard</a></li>
     </ul>
   </div>
